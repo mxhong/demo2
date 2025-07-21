@@ -24,21 +24,29 @@
 
             function validatePassword(){
                 var password = document.regForm.password.value;
+                var errorElement = document.getElementById("password-error");
+                
                 if (password.length < 8){
-                    alert("Password must be at least 8 characters long");
+                    errorElement.textContent = "Password must be at least 8 characters long";
                     return false;
+                } else {
+                    errorElement.textContent = "";
+                    return true;
                 }
-                return true;
             }
 
             function validatePasswordMatch(){
                 var password = document.regForm.password.value;
                 var confirmPassword = document.regForm.confirmPassword.value;
+                var errorElement = document.getElementById("confirm-password-error");
+                
                 if(password != confirmPassword){
-                    alert("Passwords do not match");
+                    errorElement.textContent = "Passwords do not match";
                     return false;
+                } else {
+                    errorElement.textContent = "";
+                    return true;
                 }
-                return true;
             }
 
             // read the name of the user from the form
@@ -53,15 +61,52 @@
     <body>
         <h1>User Registration</h1>
         <form action="register.html" method="get" name="regForm">
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" required><br>
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email" required><br>
-            <label for="password">Password:</label><br>
-            <input onblur="validatePassword()" type="password" id="password" name="password" required><br>
-            <label for="confirmPassword">Confirm Password:</label><br>
-            <input onblur="validatePasswordMatch()" type="password" id="password" name="confirmPassword" required><br>
-            <input type="submit" value="Register">
+            <table>
+                <tr>
+                    <td>
+                        <label for="username">Username:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="username" name="username" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="email">Email:</label>
+                    </td>
+                    <td>
+                        <input type="email" id="email" name="email" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="password">Password:</label>
+                    </td>
+                    <td>
+                        <input onblur="validatePassword()" type="password" id="password" name="password" required>
+                    </td>
+                    <td>
+                        <span id="password-error" style="color: red;font-size: small;"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="confirmPassword">Confirm Password:</label>
+                    </td>
+                    <td>
+                        <input onblur="validatePasswordMatch()" type="password" id="confirmPassword" name="confirmPassword" required>
+                    </td>
+                    <td>
+                        <span id="confirm-password-error" style="color: red;font-size: small;"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="Register" 
+                        onclick="if(validateForm() && validatePassword() && validatePasswordMatch()){readName()}">
+                    </td>
+                </tr>
+            </table>
         </form>
     </body>
 </html>
