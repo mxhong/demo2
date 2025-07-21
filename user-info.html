@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Information Form</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        h1 {
+            color: #fff;
+        }
+        .error-message {
+            color: red;
+            font-size: small;
+        }
+        .success-info {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        textarea {
+            width: 200px;
+            height: 80px;
+            resize: vertical;
+        }
+        select {
+            width: 210px;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+    <script>
+        function validateName() {
+            var name = document.userForm.name.value;
+            var errorElement = document.getElementById("name-error");
+            
+            if (name.trim() === "") {
+                errorElement.textContent = "Name is required";
+                return false;
+            } else {
+                errorElement.textContent = "";
+                return true;
+            }
+        }
+
+        function validateAge() {
+            var age = document.userForm.age.value;
+            var errorElement = document.getElementById("age-error");
+            
+            if (age === "") {
+                errorElement.textContent = "Age is required";
+                return false;
+            }
+            
+            if (isNaN(age) || age < 10 || age > 100) {
+                errorElement.textContent = "Age must be a number between 10-100";
+                return false;
+            }
+            
+            errorElement.textContent = "";
+            return true;
+        }
+
+        function validateGender() {
+            var genderSelected = document.querySelector('input[name="gender"]:checked');
+            var errorElement = document.getElementById("gender-error");
+            
+            if (!genderSelected) {
+                errorElement.textContent = "Please select a gender";
+                return false;
+            } else {
+                errorElement.textContent = "";
+                return true;
+            }
+        }
+
+        function validateZipCode() {
+            var zipCode = document.userForm.zipCode.value;
+            var errorElement = document.getElementById("zipcode-error");
+            
+            if (zipCode === "") {
+                errorElement.textContent = "Zip code is required";
+                return false;
+            }
+            
+            if (!/^\d{6}$/.test(zipCode)) {
+                errorElement.textContent = "Zip code must be 6 digits";
+                return false;
+            }
+            
+            errorElement.textContent = "";
+            return true;
+        }
+
+        function validateForm() {
+            var nameValid = validateName();
+            var ageValid = validateAge();
+            var genderValid = validateGender();
+            var zipCodeValid = validateZipCode();
+            
+            return nameValid && ageValid && genderValid && zipCodeValid;
+        }
+
+        function displayUserInfo() {
+            if (!validateForm()) {
+                return false;
+            }
+
+            var name = document.userForm.name.value;
+            var age = document.userForm.age.value;
+            var gender = document.querySelector('input[name="gender"]:checked').value;
+            var address = document.userForm.address.value;
+            var city = document.userForm.city.value;
+            var zipCode = document.userForm.zipCode.value;
+            
+            // Get selected hobbies
+            var hobbies = [];
+            var hobbyCheckboxes = document.querySelectorAll('input[name="hobbies"]:checked');
+            hobbyCheckboxes.forEach(function(checkbox) {
+                hobbies.push(checkbox.value);
+            });
+
+            // Display user information
+            var infoDisplay = document.getElementById("user-info-display");
+            var infoHtml = "<h3>Your Information:</h3>";
+            infoHtml += "<p><strong>Name:</strong> " + name + "</p>";
+            infoHtml += "<p><strong>Age:</strong> " + age + "</p>";
+            infoHtml += "<p><strong>Gender:</strong> " + gender + "</p>";
+            infoHtml += "<p><strong>Address:</strong> " + (address || "Not provided") + "</p>";
+            infoHtml += "<p><strong>City:</strong> " + city + "</p>";
+            infoHtml += "<p><strong>Zip Code:</strong> " + zipCode + "</p>";
+            infoHtml += "<p><strong>Hobbies:</strong> " + (hobbies.length > 0 ? hobbies.join(", ") : "None selected") + "</p>";
+            
+            infoDisplay.innerHTML = infoHtml;
+            infoDisplay.classList.remove("hidden");
+            
+            return false; // Prevent form submission
+        }
+    </script>
+ </head>
+ <body>
+     <h1>User Information Form</h1>
+     
+     <form name="userForm" onsubmit="return displayUserInfo()">
+         <table>
+             <tr>
+                 <td><label for="name">Name:</label></td>
+                 <td>
+                     <input type="text" id="name" name="name" onblur="validateName()" placeholder="Enter your name">
+                 </td>
+                 <td><span id="name-error" class="error-message"></span></td>
+             </tr>
+             <tr>
+                 <td><label for="age">Age:</label></td>
+                 <td>
+                     <input type="text" id="age" name="age" onblur="validateAge()" placeholder="Enter age (10-100)">
+                 </td>
+                 <td><span id="age-error" class="error-message"></span></td>
+             </tr>
+             <tr>
+                 <td><label>Gender:</label></td>
+                 <td>
+                     <input type="radio" id="male" name="gender" value="Male" onchange="validateGender()">
+                     <label for="male">Male</label>
+                     <input type="radio" id="female" name="gender" value="Female" onchange="validateGender()">
+                     <label for="female">Female</label>
+                 </td>
+                 <td><span id="gender-error" class="error-message"></span></td>
+             </tr>
+             <tr>
+                 <td><label for="address">Address:</label></td>
+                 <td>
+                     <textarea id="address" name="address" placeholder="Enter your address"></textarea>
+                 </td>
+                 <td></td>
+             </tr>
+             <tr>
+                 <td><label for="city">City:</label></td>
+                 <td>
+                     <select id="city" name="city">
+                         <option value="Beijing">Beijing</option>
+                         <option value="Shanghai">Shanghai</option>
+                         <option value="Guangzhou">Guangzhou</option>
+                         <option value="Shenzhen">Shenzhen</option>
+                         <option value="Hangzhou">Hangzhou</option>
+                         <option value="Nanjing">Nanjing</option>
+                         <option value="Wuhan">Wuhan</option>
+                         <option value="Chengdu">Chengdu</option>
+                         <option value="Chongqing">Chongqing</option>
+                         <option value="Xi'an">Xi'an</option>
+                     </select>
+                 </td>
+                 <td></td>
+             </tr>
+             <tr>
+                 <td><label for="zipCode">Zip Code:</label></td>
+                 <td>
+                     <input type="text" id="zipCode" name="zipCode" onblur="validateZipCode()" placeholder="Enter 6-digit zip code">
+                 </td>
+                 <td><span id="zipcode-error" class="error-message"></span></td>
+             </tr>
+             <tr>
+                 <td><label>Hobbies:</label></td>
+                 <td>
+                     <div class="checkbox-group">
+                         <div class="checkbox-item">
+                             <input type="checkbox" id="movies" name="hobbies" value="Watching Movies">
+                             <label for="movies">Watching Movies</label>
+                         </div>
+                         <div class="checkbox-item">
+                             <input type="checkbox" id="singing" name="hobbies" value="Singing">
+                             <label for="singing">Singing</label>
+                         </div>
+                         <div class="checkbox-item">
+                             <input type="checkbox" id="music" name="hobbies" value="Listening Music">
+                             <label for="music">Listening Music</label>
+                         </div>
+                         <div class="checkbox-item">
+                             <input type="checkbox" id="reading" name="hobbies" value="Reading">
+                             <label for="reading">Reading</label>
+                         </div>
+                         <div class="checkbox-item">
+                             <input type="checkbox" id="outdoor" name="hobbies" value="Outdoor Sports">
+                             <label for="outdoor">Outdoor Sports</label>
+                         </div>
+                         <div class="checkbox-item">
+                             <input type="checkbox" id="indoor" name="hobbies" value="Indoor Sports">
+                             <label for="indoor">Indoor Sports</label>
+                         </div>
+                     </div>
+                 </td>
+                 <td></td>
+             </tr>
+             <tr>
+                 <td colspan="3" align="center">
+                     <input type="submit" value="Submit Information">
+                 </td>
+             </tr>
+         </table>
+     </form>
+
+    <div id="user-info-display" class="success-info hidden"></div>
+</body>
+</html> 
