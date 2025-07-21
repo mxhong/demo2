@@ -1,0 +1,67 @@
+<html>
+    <head>  
+        <link rel="stylesheet" href="style.css">
+        <style >
+            h1{
+                color: #fff;
+            }
+        </style>
+        <script>
+            function validateForm(){
+                var username = document.regForm.username.value;
+                var email = document.regForm.email.value;
+                var password = document.regForm.password.value;
+                var confirmPassword = document.regForm.confirmPassword.value;
+
+                if(username == "" || email == "" || password == "" || confirmPassword == ""){
+                    alert("Please fill in all fields");
+                    return false;
+                }
+
+                
+                return true;
+            }
+
+            function validatePassword(){
+                var password = document.regForm.password.value;
+                if (password.length < 8){
+                    alert("Password must be at least 8 characters long");
+                    return false;
+                }
+                return true;
+            }
+
+            function validatePasswordMatch(){
+                var password = document.regForm.password.value;
+                var confirmPassword = document.regForm.confirmPassword.value;
+                if(password != confirmPassword){
+                    alert("Passwords do not match");
+                    return false;
+                }
+                return true;
+            }
+
+            // read the name of the user from the form
+            usr = "";
+            function readName(){
+                // usr = document.getElementById("username").value;
+                usr = document.regForm.username.value;
+                alert("Welcome " + usr);
+            }
+        </script>
+    </head>
+    <body>
+        <h1>User Registration</h1>
+        <form action="register.html" method="get" name="regForm">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br>
+            <label for="password">Password:</label><br>
+            <input onblur="validatePassword()" type="password" id="password" name="password" required><br>
+            <label for="confirmPassword">Confirm Password:</label><br>
+            <input onblur="validatePasswordMatch()" type="password" id="password" name="confirmPassword" required><br>
+            <input type="submit" value="Register">
+        </form>
+    </body>
+</html>

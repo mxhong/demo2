@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <script>
+            // window.onload = function() {
+            //     document.body.style.backgroundColor = "grey";
+            // }
+            alert("Welcome to the About Us Page");
+            col = prompt("Please enter a color for the background");
+            function myFunction(){
+                document.body.style.backgroundColor = col;
+            }
+
+            function imgSmall(){
+                var img = document.getElementById("SeaShore");
+                img.style.width="300px";
+                img.style.height="200px";
+            }
+
+            function imgBig(){
+                var img = document.getElementById("SeaShore");
+                img.style.width="600px";
+                img.style.height="350px";
+            }
+        </script>
+    </head>
+    <body onload="myFunction();">
+    <!-- <body> -->
+        <!-- <h1 onclick="myFunction();">About</h1> -->
+        <h1>About</h1>
+        <p>
+            This is where SlideTeam's invaluable resource–a treasure trove of 10 meticulously designed IT company profile templates with samples and examples comes to the rescue. Each template is a symphony of structure and creativity, blending the essential elements of a company's narrative with visually-captivating design.
+        </p>
+
+        <img id="SeaShore" src="images/image1.jpeg" style="width: 300px; height: 200px;" alt="Image 1"
+            onmouseover="imgBig();" onmouseout="imgSmall();">
+    </body>
+</html>
